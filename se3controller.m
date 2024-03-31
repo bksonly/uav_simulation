@@ -264,10 +264,10 @@ function sys=mdlOutputs(t,x,u)
 global m g J;
 
 % ky=4;
-kx=6;
+kx=3;
 kv=2;
-kR=8.81;
-kw=2.54;
+kR=2;
+kw=1;
 
 xd=x(1:3);
 vd=x(4:6);
@@ -299,8 +299,9 @@ R=inv(reshape(u(13:21),[3,3]));
 ex=xe-xd;
 ev=ve-vd;
 e3=[0;0;1];
-
-f=(ex*kx+ev*kv+e3*m*g-ad*m)' *(R*[0;0;1]);
+% ad=ad/norm(ad)*deadzone(-10,norm(ad),10);
+f=(-ex*kx-ev*kv-e3*m*g+ad*m)' *(R*[0;0;1]);
+f=min(f,m*g*2);
 % disp(ex)
 % if(t==2e-4)
 %     fprintf("ad")
@@ -312,9 +313,13 @@ f=(ex*kx+ev*kv+e3*m*g-ad*m)' *(R*[0;0;1]);
 % end
 eR=vee((Rd'*R-R'*Rd)/2);
 ew=w-R'*Rd*wd;
-
+dwd=deadzone(-0.16,dwd,0.16);
 M=-kR*eR-kw*ew+cross(w,J*w)-J*(cross(w,R'*Rd*wd)-R'*Rd*dwd);
-M(3)=min(M(3),0.001);
+% M=-kR*eR-kw*ew+cross(w,J*w);
+M(1)=deadzone(-0.01,M(1),0.01);
+M(2)=deadzone(-0.01,M(2),0.01);
+M(3)=deadzone(-0.0008,M(3),0.0008);
+
 sys =[f;M];
 
 % end mdlOutputs
