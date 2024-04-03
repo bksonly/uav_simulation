@@ -143,6 +143,9 @@ pd=reshape(u(16:18),[3,1]);
 vd=reshape(u(19:21),[3,1]);
 ad=reshape(u(22:24),[3,1]);
 
+if norm(ad)~=0
+    ad=ad/norm(ad)*deadzone(0,norm(ad),30);
+end
 %计算f
 ex=pd-p;
 ev=vd-v;
@@ -152,6 +155,7 @@ f=f_ideal'*(R*[0;0;1]);%在body的z轴上投影，还是负的
 b3d=-f_ideal/norm(f_ideal);%z轴和升力方向相反
 
 th=73.65;
+th=m*g*3;
 f=deadzone(-th,f,th);
 
 sys =[f;b3d];
