@@ -145,13 +145,13 @@ end
 % wd=reshape(u(16:18),[3,1]);
 % dwd=[0;0;0];
 
-if norm(wd)>20
-    wd=wd/norm(wd)*20;
-end
+% if norm(wd)>0.1
+%     wd=wd/norm(wd)/10;
+% end
 % 
-if norm(dwd)>100
-    dwd=dwd/norm(dwd)*100;
-end
+% if norm(dwd)>0.1
+%     dwd=dwd/norm(dwd)/10;
+% end
 
 sys = [reshape(Rd,[9,1]);wd;dwd];
 
@@ -182,7 +182,7 @@ ew=w-R'*Rd*wd;
 hat_ew=hat(ew);
 
 tmp1=Rr*hat_ew*hat(w)-hat(wd)*Rr*hat_ew- hat(dwd)*Rr;
-Ad=tmp1-tmp1';
+tmp=tmp1-tmp1';
 
 RB=[Rr(2,2)+Rr(3,3)       -Rr(2,1)          -Rr(3,1);
      -Rr(1,2)         Rr(1,1)+Rr(3,3)       -Rr(3,2);
@@ -193,30 +193,37 @@ de=vee(Rr*hat_ew+hat_ew*Rr');
 
 if rank(RB)==3
     B=RB*inv(J);
-    M=inv(B)*(-vee(Ad)-K*[e;de])+cross(w,J*w);
+    M=inv(B)*(-vee(tmp)-K*[e;de])+cross(w,J*w);
     unfullrank=0;
 else
     M=-8.81/10*eR-2.54/10*ew+cross(w,J*w)-J*(hat(w)*Rr'*wd-Rr'*dwd);
     unfullrank=1;
 end
 
-% M(1:3)=-8.81/10*eR-2.54/10*ew+cross(w,J*w)-J*(hat(w)*Rr'*wd-Rr'*dwd);
+% M(1:3)=-8.81*eR-2.54*ew+cross(w,J*w)-J*(hat(w)*Rr'*wd-Rr'*dwd);
 % unfullrank=1;
 
-% q = dcm2quat(R');
-% qd = dcm2quat(Rd');
-% q_inv = quatinv(q);  % 计算q的逆
-% qe = quatmultiply(q_inv, qd);  % 计算q的逆与qd的乘积
-% w_cmd = 8 * sign(qe(1)) * qe(2:4);
-% we = w_cmd' - w;
-% sys =[we;unfullrank];
+q = dcm2quat(R');
+qd = dcm2quat(Rd');
+q_inv = quatinv(q);  % 计算q的逆
+qe = quatmultiply(q_inv, qd);  % 计算q的逆与qd的乘积
+w_cmd = 8 * sign(qe(1)) * qe(2:4);
+if norm(w_cmd)>20
+    w_cmd=w_cmd/norm(w_cmd)*20;
+end
+we = w_cmd' - w;
 
-th1=0.3;
-th2=0.1;
+
+
+
+th1=0.1;
+th2=0.04;
 M(1)=deadzone(-th1,M(1),th1);
 M(2)=deadzone(-th1,M(2),th1);
 M(3)=deadzone(-th2,M(3),th2);
-sys =[M;unfullrank;wd];
+
+sys =[we;unfullrank;w_cmd'];
+% sys =[M;unfullrank];
 
 % end mdlOutputs
 

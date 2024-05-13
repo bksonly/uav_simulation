@@ -200,8 +200,8 @@ else
     unfullrank=1;
 end
 
-% M(1:3)=-8.81/10*eR-2.54/10*ew+cross(w,J*w)-J*(hat(w)*Rr'*wd-Rr'*dwd);
-% unfullrank=1;
+M(1:3)=-8.81/10*eR-2.54/10*ew+cross(w,J*w)-J*(hat(w)*Rr'*wd-Rr'*dwd);
+unfullrank=1;
 
 % q = dcm2quat(R');
 % qd = dcm2quat(Rd');

@@ -71,7 +71,7 @@ f1234tofm=[1 1 1 1;
 fmtof1234=inv(f1234tofm);
 
 % sim("double_sim_motor_px4.slx")
-sim("double_sim_motor.slx")
+sim("double_sim_motor_so3.slx")
 
 simT=length(outx(:,1));
 
@@ -110,7 +110,7 @@ grid on
 set(gcf, 'Position', [100, 100, 800, 600]);  % gcf 获取当前图窗句柄
 
 % 保存图像
-print('-dpng', '-r300', 'C:\Users\zzy\毕业论文\matlab_figures\hofa_1'); % '-dpng' 表示输出PNG格式，'-r300' 表示分辨率为300 dpi
+print('-dpng', '-r300', 'C:\Users\zzy\毕业论文\matlab_figures\so3_1'); % '-dpng' 表示输出PNG格式，'-r300' 表示分辨率为300 dpi
 
 %% xyz
 figure

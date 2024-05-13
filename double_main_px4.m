@@ -13,7 +13,6 @@ t=0:dt:T;
 % z=[0*t0, -0.1*t1];
 % psi_d=0.01*t;
 
-x = [1*t];
 x = [0*t0, 0*t1+1];
 y = [0*t0, 0*t1];
 z=[0*t0, 0*t1];
@@ -70,8 +69,8 @@ f1234tofm=[1 1 1 1;
     -ctf ctf -ctf ctf];
 fmtof1234=inv(f1234tofm);
 
-% sim("double_sim_motor_px4.slx")
-sim("double_sim_motor.slx")
+sim("double_sim_motor_px4.slx")
+
 
 simT=length(outx(:,1));
 
@@ -110,7 +109,7 @@ grid on
 set(gcf, 'Position', [100, 100, 800, 600]);  % gcf 获取当前图窗句柄
 
 % 保存图像
-print('-dpng', '-r300', 'C:\Users\zzy\毕业论文\matlab_figures\hofa_1'); % '-dpng' 表示输出PNG格式，'-r300' 表示分辨率为300 dpi
+print('-dpng', '-r300', 'C:\Users\zzy\毕业论文\matlab_figures\px4_1'); % '-dpng' 表示输出PNG格式，'-r300' 表示分辨率为300 dpi
 
 %% xyz
 figure
