@@ -12,8 +12,8 @@ t=0:dt:T;
 % y = [0*t0, 5 * cos(t1/k) .* sin(t1/k)];
 % z=[0*t0, -0.1*t1];
 % psi_d=0.01*t;
-
-x = [1*t];
+% 
+% x = [1*t];
 x = [0*t0, 0*t1+1];
 y = [0*t0, 0*t1];
 z=[0*t0, 0*t1];
@@ -79,73 +79,78 @@ simT=length(outx(:,1));
 figure 
 subplot(5,1,1)
 plot(t(1:simT),x(1:simT),t(1:simT),outx(:,1))
-legend('desired','response');
-xlabel('t/s'); ylabel('x/m');
+legend('Desired','Actual');
+xlabel('t/s'); ylabel('x/m','Interpreter','tex');
 grid on
 
 subplot(5,1,2)
 plot(t(1:simT),vx(1:simT),t(1:simT),outv(:,1))
-legend('desired','response');
-xlabel('t/s'); ylabel('vx/(m/s)');
+legend('Desired','Actual');
+xlabel('t/s'); ylabel('v_x/(m/s)','Interpreter','tex');
 grid on
 
 subplot(5,1,3)
 plot(t(1:simT),outda(:,2),t(1:simT),outa(:,2))
-legend('desired','response');
-xlabel('t/s'); ylabel('theta/Rad');
+legend('Desired','Actual');
+xlabel('t/s'); ylabel('\theta/rad','Interpreter','tex');
 grid on
 
 subplot(5,1,4)
 plot(t(1:simT),outwd(:,2),t(1:simT),outw(:,2))
-legend('desired','response');
-xlabel('t/s'); ylabel('w2/(Rad/s)');
+legend('Desired','Actual');
+xlabel('t/s'); ylabel('\omega_2/(rad/s)','Interpreter','tex');
 grid on
 
 subplot(5,1,5)
 plot(t(1:simT),fM(:,3))
-legend('M2');
-xlabel('t/s'); ylabel('M2/Nm');
+xlabel('t/s'); ylabel('M_2/Nm','Interpreter','tex');
 grid on
 
-set(gcf, 'Position', [100, 100, 800, 600]);  % gcf 获取当前图窗句柄
+set(gcf, 'Position', [100, 100, 400, 450]);  % gcf 获取当前图窗句柄
 
 % 保存图像
-print('-dpng', '-r300', 'C:\Users\zzy\毕业论文\matlab_figures\so3_1'); % '-dpng' 表示输出PNG格式，'-r300' 表示分辨率为300 dpi
+print('-depsc', 'C:\Users\zzy\毕业论文\matlab_figures\so3_1'); % '-dpng' 表示输出PNG格式，'-r300' 表示分辨率为300 dpi
 
+ph=450;
+pw=400;
 %% xyz
 figure
 subplot(3,1,1)
 plot(t(1:simT),x(1:simT),t(1:simT),outx(:,1))
-legend('desired','response');
+legend('Desired','Actual');
 xlabel('t/s'); ylabel('x/m');
 
 subplot(3,1,2)
 plot(t(1:simT),y(1:simT),t(1:simT),outx(:,2))
-legend('desired','response');
+legend('Desired','Actual');
 xlabel('t/s'); ylabel('y/m');
 
 subplot(3,1,3)
 plot(t(1:simT),z(1:simT),t(1:simT),outx(:,3))
-legend('desired','response');
+legend('Desired','Actual');
 xlabel('t/s'); ylabel('z/m');
 
+set(gcf, 'Position', [100, 100, pw, ph]);  
+print('-depsc', 'C:\Users\zzy\毕业论文\matlab_figures\so3_x');
 %% 角度
 figure
 subplot(3,1,1)
 plot(t(1:simT),outda(:,3),t(1:simT),outa(:,1))
-legend('desired','response');
-xlabel('t/s'); ylabel('phi/Rad');
+legend('Desired','Actual');
+xlabel('t/s'); ylabel('\phi/rad','Interpreter','tex');
 
 subplot(3,1,2)
 plot(t(1:simT),outda(:,2),t(1:simT),outa(:,2))
-legend('desired','response');
-xlabel('t/s'); ylabel('theta/Rad');
+legend('Desired','Actual');
+xlabel('t/s'); ylabel('\theta/rad','Interpreter','tex');
 
 subplot(3,1,3)
 plot(t(1:simT),psi_d(1:simT,2),t(1:simT),outa(:,3))
-legend('desired','response');
-xlabel('t/s'); ylabel('psi/Rad');
+legend('Desired','Actual');
+xlabel('t/s'); ylabel('\psi/rad','Interpreter','tex');
 
+set(gcf, 'Position', [100, 100, pw, ph]); 
+print('-depsc', 'C:\Users\zzy\毕业论文\matlab_figures\so3_angle');
 %% fM
 figure 
 subplot(4,1,1)
@@ -156,39 +161,40 @@ xlabel('t/s'); ylabel('f/N');
 subplot(4,1,2)
 plot(t(1:simT),fM(:,2))
 legend('M1');
-xlabel('t/s'); ylabel('M1/Nm');
+xlabel('t/s'); ylabel('M_1/Nm','Interpreter','tex');
 
 subplot(4,1,3)
 plot(t(1:simT),fM(:,3))
 legend('M2');
-xlabel('t/s'); ylabel('M2/Nm');
+xlabel('t/s'); ylabel('M_2/Nm','Interpreter','tex');
 
 subplot(4,1,4)
 plot(t(1:simT),fM(:,4))
 legend('M3');
-xlabel('t/s'); ylabel('M3/Nm');
-
-%% f1234
-figure 
-subplot(4,1,1)
-plot(t(1:simT),responsef(:,1))
-legend('f1');
-xlabel('t/s'); ylabel('f1/N');
-
-subplot(4,1,2)
-plot(t(1:simT),responsef(:,2))
-legend('f2');
-xlabel('t/s'); ylabel('f2/N');
-
-subplot(4,1,3)
-plot(t(1:simT),responsef(:,3))
-legend('f3');
-xlabel('t/s'); ylabel('f3/N');
-
-subplot(4,1,4)
-plot(t(1:simT),responsef(:,4))
-legend('f4');
-xlabel('t/s'); ylabel('f4/N');
+xlabel('t/s'); ylabel('M_3/Nm','Interpreter','tex');
+set(gcf, 'Position', [100, 100, pw, ph]); 
+print('-depsc', 'C:\Users\zzy\毕业论文\matlab_figures\so3_fM');
+% % f1234
+% figure 
+% subplot(4,1,1)
+% plot(t(1:simT),responsef(:,1))
+% legend('f1');
+% xlabel('t/s'); ylabel('f1/N');
+% 
+% subplot(4,1,2)
+% plot(t(1:simT),responsef(:,2))
+% legend('f2');
+% xlabel('t/s'); ylabel('f2/N');
+% 
+% subplot(4,1,3)
+% plot(t(1:simT),responsef(:,3))
+% legend('f3');
+% xlabel('t/s'); ylabel('f3/N');
+% 
+% subplot(4,1,4)
+% plot(t(1:simT),responsef(:,4))
+% legend('f4');
+% xlabel('t/s'); ylabel('f4/N');
 
 
 %% 3d
@@ -197,9 +203,10 @@ plot3(x,y,z);
 hold on
 plot3(outx(:,1),outx(:,2),outx(:,3));
 xlabel('x/m'); ylabel('y/m');zlabel('z/m')
-legend('desired','response')
+legend('Desired','Actual','location','northwest')
 axis equal;
-
+set(gcf, 'Position', [100, 100, 450, 300]);  
+print('-depsc', 'C:\Users\zzy\毕业论文\matlab_figures\so3_3d'); 
 %% e
 sum_e=0;
 sum_angle=0;
